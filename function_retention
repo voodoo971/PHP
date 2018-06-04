@@ -1,0 +1,33 @@
+<?php
+function retention()
+{
+$tab_vm = array(
+"1" => "XXXX",
+"2" => "XXXX",
+"3" => "XXXX",
+"4" => "XXXX",
+);
+foreach ( $tab_vm as &$vm)
+{
+$count = exec('ls -trl /path/'.$vm.'/*.vma.lzo | wc -l ');
+$list = array($vm,$count);
+var_dump($list);
+if ( $list[1] > 3 )
+   {
+$interval = $list[1] - 3;
+var_dump($list[1]);
+var_dump($interval);
+$cmd ="ls -trl /path/$list[0]/*.vma.lzo | head -n $interval | awk '{print $9}'";
+exec($cmd,$output);
+var_dump($cmd);
+var_dump($output);
+foreach ( $output as &$del)
+  {
+$remove = 'rm -rf '.$del.'';
+var_dump($remove);
+exec($remove);
+  }
+   }
+  } 
+}
+?>
