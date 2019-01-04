@@ -27,13 +27,13 @@ function check_usb($uuid,$luks,$repertoire)
 $luks_log= '/var/www/sauvegarde/log/autoluks.log';
 $log = new Logging();
 $log->lfile($luks_log);
-$cmd = "blkid | grep $uuid";
+$cmd = "sudo /sbin/blkid | grep $uuid";
 
 
 $start_cmd = exec($cmd,$output,$return_var_usb);
 
 
-if ( $return_var_usb == 0){
+if ( $return_var_usb === 0){
 $log->lwrite('USB >>>> USB CONNECTE DISQUE '.$luks.' OK');
 $log->lwrite('USB >>>> CODE RETOUR '.$return_var_usb.'');
 }
@@ -60,6 +60,8 @@ if(isset($uuid_1) || isset($luks_name_1) ||  isset($g_REPERTOIRE_DISQUE_1) ){
 check_usb($uuid_1,$luks_name_1,$g_REPERTOIRE_DISQUE_1);
 
 }
+
+
 
 if(isset($uuid_2) || isset($luks_name_2) ||  isset($g_REPERTOIRE_DISQUE_2) ){
 check_usb($uuid_2,$luks_name_2,$g_REPERTOIRE_DISQUE_2);
