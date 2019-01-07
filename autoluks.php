@@ -8,18 +8,27 @@ $log = new Logging();
 $log->lfile($luks_log);
 
 
-if(isset($repertoire) || isset($luks) ||  isset($uuid) || isset($key)){
+
+
+if(isset($repertoire) || isset($luks) ||  isset($uuid) || isset($uuid_partition) || isset($key)){
 
 if(open_luks($uuid,$luks,$key)){
 $log->lwrite('LUKS >>>> Partition LUKS '.$luks.' OK');
-
-mount_usb($uuid_partition,$repertoire);
-$log->lwrite('LUKS >>>> Réussite Montage '.$repertoire.' OK');
 }
 else {
 $log->lwrite('LUKS >>>> Echec luksOpen '.$luks.'');
+}
+
+
+if(mount_usb($uuid_partition,$repertoire))
+{
+$log->lwrite('LUKS >>>> Réussite Montage '.$repertoire.' OK');
+}
+else {
+
 $log->lwrite('LUKS >>>> Echec Montage du Disque '.$luks.'');
 }
+
 }
 }
 function check_usb($uuid,$luks,$repertoire)
@@ -80,7 +89,7 @@ $log->lwrite('LUKS >>>> Répertoire '.$g_REPERTOIRE_DISQUE_1.' déjà monté >>>
 else {
 Trace_rouge('LUKS >>>> Répertoire '.$g_REPERTOIRE_DISQUE_1.' non monté >>> Erreur');
 $log->lwrite('LUKS >>>> Répertoire '.$g_REPERTOIRE_DISQUE_1.' non monté >>> Erreur');
-  if(isset($g_REPERTOIRE_DISQUE_1) || isset($luks_name_1) ||  isset($uuid_1) || isset($key_path_1)){
+  if(isset($g_REPERTOIRE_DISQUE_1) || isset($luks_name_1) ||  isset($uuid_1) || isset($uuid_1_ext4) || isset($key_path_1)){
   mount_device_auto($g_REPERTOIRE_DISQUE_1,$luks_name_1,$uuid_1,$uuid_1_ext4,$key_path_1);
   }
 }
@@ -96,7 +105,7 @@ else{
 
 Trace_rouge('LUKS >>>> Répertoire '.$g_REPERTOIRE_DISQUE_2.' non monté >>> Erreur');
 $log->lwrite('LUKS >>>> Répertoire '.$g_REPERTOIRE_DISQUE_2.' non monté >>> Erreur');
-if(isset($g_REPERTOIRE_DISQUE_2) || isset($luks_name_2) ||  isset($uuid_2) || isset($key_path_2)){
+if(isset($g_REPERTOIRE_DISQUE_2) || isset($luks_name_2) ||  isset($uuid_2) || isset($uuid_2_ext4) || isset($key_path_2)){
 mount_device_auto($g_REPERTOIRE_DISQUE_2,$luks_name_2,$uuid_2,$uuid_2_ext4,$key_path_2);
 }
 }
